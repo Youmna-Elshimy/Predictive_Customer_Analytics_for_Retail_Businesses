@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.10.008">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.10.008" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="9.10.008" expanded="true" height="68" name="Retrieve" origin="GENERATED_TUTORIAL" width="90" x="45" y="34">
+        <parameter key="repository_entry" value="assignment 2 Data Supermarket Transactions"/>
+        <description align="center" color="yellow" colored="true" width="126">Retrieving the supermarket's data</description>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.10.008" expanded="true" height="82" name="Select Attributes" width="90" x="179" y="34">
+        <parameter key="attribute_filter_type" value="subset"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="Country|Product Category|Purchase Date|Revenue|Units Sold"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <description align="center" color="yellow" colored="true" width="126">Selecting the attributes:&lt;br&gt;Country&lt;br/&gt;Product Category&lt;br/&gt;Purchase Date&lt;br/&gt;Revenue&lt;br/&gt;Units sold&lt;br&gt;</description>
+      </operator>
+      <operator activated="true" class="date_to_numerical" compatibility="9.10.008" expanded="true" height="82" name="Date to Numerical" width="90" x="313" y="34">
+        <parameter key="attribute_name" value="Purchase Date"/>
+        <parameter key="time_unit" value="year"/>
+        <parameter key="millisecond_relative_to" value="second"/>
+        <parameter key="second_relative_to" value="minute"/>
+        <parameter key="minute_relative_to" value="hour"/>
+        <parameter key="hour_relative_to" value="day"/>
+        <parameter key="day_relative_to" value="month"/>
+        <parameter key="week_relative_to" value="year"/>
+        <parameter key="month_relative_to" value="year"/>
+        <parameter key="quarter_relative_to" value="year"/>
+        <parameter key="half_year_relative_to" value="year"/>
+        <parameter key="year_relative_to" value="era"/>
+        <parameter key="keep_old_attribute" value="false"/>
+        <description align="center" color="yellow" colored="true" width="126">Changing dates to numerical with years as the time unit</description>
+      </operator>
+      <operator activated="true" class="replace_missing_values" compatibility="9.10.008" expanded="true" height="103" name="Replace Missing Values" width="90" x="447" y="34">
+        <parameter key="return_preprocessing_model" value="false"/>
+        <parameter key="create_view" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="Purchase Date"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default" value="average"/>
+        <list key="columns">
+          <parameter key="Purchase Date" value="value"/>
+        </list>
+        <parameter key="replenishment_value" value="2013"/>
+        <description align="center" color="yellow" colored="true" width="126">The missing purchase dates are those 2013, so here the missing values in Purchase Dates have been replaced with &amp;quot;2013&amp;quot;</description>
+      </operator>
+      <operator activated="true" class="nominal_to_numerical" compatibility="9.10.008" expanded="true" height="103" name="Nominal to Numerical" width="90" x="581" y="34">
+        <parameter key="return_preprocessing_model" value="false"/>
+        <parameter key="create_view" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="Gender|Marital Status|Homeowner"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="nominal"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="file_path"/>
+        <parameter key="block_type" value="single_value"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="single_value"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="coding_type" value="dummy coding"/>
+        <parameter key="use_comparison_groups" value="false"/>
+        <list key="comparison_groups"/>
+        <parameter key="unexpected_value_handling" value="all 0 and warning"/>
+        <parameter key="use_underscore_in_name" value="false"/>
+        <description align="center" color="yellow" colored="true" width="126">Changing the nominal data into numerical</description>
+      </operator>
+      <operator activated="true" class="concurrency:k_means" compatibility="9.0.001" expanded="true" height="82" name="Clustering" origin="GENERATED_TUTORIAL" width="90" x="715" y="34">
+        <parameter key="add_cluster_attribute" value="true"/>
+        <parameter key="add_as_label" value="false"/>
+        <parameter key="remove_unlabeled" value="false"/>
+        <parameter key="k" value="5"/>
+        <parameter key="max_runs" value="10"/>
+        <parameter key="determine_good_start_values" value="false"/>
+        <parameter key="measure_types" value="BregmanDivergences"/>
+        <parameter key="mixed_measure" value="MixedEuclideanDistance"/>
+        <parameter key="nominal_measure" value="NominalDistance"/>
+        <parameter key="numerical_measure" value="EuclideanDistance"/>
+        <parameter key="divergence" value="SquaredEuclideanDistance"/>
+        <parameter key="kernel_type" value="radial"/>
+        <parameter key="kernel_gamma" value="1.0"/>
+        <parameter key="kernel_sigma1" value="1.0"/>
+        <parameter key="kernel_sigma2" value="0.0"/>
+        <parameter key="kernel_sigma3" value="2.0"/>
+        <parameter key="kernel_degree" value="3.0"/>
+        <parameter key="kernel_shift" value="1.0"/>
+        <parameter key="kernel_a" value="1.0"/>
+        <parameter key="kernel_b" value="0.0"/>
+        <parameter key="max_optimization_steps" value="100"/>
+        <parameter key="use_local_random_seed" value="true"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <description align="center" color="yellow" colored="true" width="126">Clustering the data into five clusters depending on similarities</description>
+      </operator>
+      <operator activated="true" class="aggregate" compatibility="9.10.008" expanded="true" height="82" name="Aggregate" origin="GENERATED_TUTORIAL" width="90" x="849" y="136">
+        <parameter key="use_default_aggregation" value="false"/>
+        <parameter key="attribute_filter_type" value="all"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+        <parameter key="default_aggregation_function" value="average"/>
+        <list key="aggregation_attributes">
+          <parameter key="Product Category = Baking Goods" value="sum"/>
+          <parameter key="Product Category = Bathroom Products" value="sum"/>
+          <parameter key="Product Category = Beer and Wine" value="sum"/>
+          <parameter key="Product Category = Bread" value="sum"/>
+          <parameter key="Product Category = Breakfast Foods" value="sum"/>
+          <parameter key="Product Category = Candles" value="sum"/>
+          <parameter key="Product Category = Candy" value="sum"/>
+          <parameter key="Product Category = Canned Anchovies" value="sum"/>
+          <parameter key="Product Category = Canned Clams" value="sum"/>
+          <parameter key="Product Category = Canned Oysters" value="sum"/>
+          <parameter key="Product Category = Canned Sardines" value="sum"/>
+          <parameter key="Product Category = Canned Shrimp" value="sum"/>
+          <parameter key="Product Category = Canned Soup" value="sum"/>
+          <parameter key="Product Category = Canned Tuna" value="sum"/>
+          <parameter key="Product Category = Carbonated Beverages" value="sum"/>
+          <parameter key="Product Category = Cleaning Supplies" value="sum"/>
+          <parameter key="Product Category = Cold Remedies" value="sum"/>
+          <parameter key="Product Category = Dairy" value="sum"/>
+          <parameter key="Product Category = Decongestants" value="sum"/>
+          <parameter key="Product Category = Drinks" value="sum"/>
+          <parameter key="Product Category = Eggs" value="sum"/>
+          <parameter key="Product Category = Electrical" value="sum"/>
+          <parameter key="Product Category = Frozen Desserts" value="sum"/>
+          <parameter key="Product Category = Frozen Entrees" value="sum"/>
+          <parameter key="Product Category = Fruit" value="sum"/>
+          <parameter key="Product Category = Hardware" value="sum"/>
+          <parameter key="Product Category = Hot Beverages" value="sum"/>
+          <parameter key="Product Category = Hygiene" value="sum"/>
+          <parameter key="Product Category = Jams and Jellies" value="sum"/>
+          <parameter key="Product Category = Kitchen Products" value="sum"/>
+          <parameter key="Product Category = Magazines" value="sum"/>
+          <parameter key="Product Category = Meat" value="sum"/>
+          <parameter key="Product Category = Miscellaneous" value="sum"/>
+          <parameter key="Product Category = Packaged Vegetables" value="sum"/>
+          <parameter key="Product Category = Pain Relievers" value="sum"/>
+          <parameter key="Product Category = Paper Products" value="sum"/>
+          <parameter key="Product Category = Pizza" value="sum"/>
+          <parameter key="Product Category = Plastic Products" value="sum"/>
+          <parameter key="Product Category = Pure Juice Beverages" value="sum"/>
+          <parameter key="Product Category = Seafood" value="sum"/>
+          <parameter key="Product Category = Side Dishes" value="sum"/>
+          <parameter key="Product Category = Snack Foods" value="sum"/>
+          <parameter key="Product Category = Specialty" value="sum"/>
+          <parameter key="Product Category = Starchy Foods" value="sum"/>
+          <parameter key="Product Category = Vegetables" value="sum"/>
+          <parameter key="Purchase Date" value="sum"/>
+          <parameter key="Units Sold" value="sum"/>
+          <parameter key="Revenue" value="sum"/>
+        </list>
+        <parameter key="group_by_attributes" value="cluster"/>
+        <parameter key="count_all_combinations" value="false"/>
+        <parameter key="only_distinct" value="false"/>
+        <parameter key="ignore_missings" value="true"/>
+        <description align="center" color="yellow" colored="true" width="126">- Grouping data by cluster numbers&lt;br&gt;- Adding the number products according to their categories, revenue, number of purchases, and units sold</description>
+      </operator>
+      <operator activated="true" class="blending:rename" compatibility="9.10.008" expanded="true" height="82" name="Rename" width="90" x="983" y="238">
+        <list key="rename attributes">
+          <parameter key="sum(Revenue)" value="Total Revenue"/>
+          <parameter key="sum(Units Sold)" value="Total Units Sold"/>
+          <parameter key="sum(Purchase Date)" value="Total Number of Purchases"/>
+          <parameter key="sum(Product Category = Baking Goods)" value="Baking Goods Purchases"/>
+          <parameter key="sum(Product Category = Bathroom Products)" value="Bathroom Products Purchases"/>
+          <parameter key="sum(Product Category = Beer and Wine)" value="Beer and Wine Purchases"/>
+          <parameter key="sum(Product Category = Bread)" value="Bread Purchases"/>
+          <parameter key="sum(Product Category = Breakfast Foods)" value="Breakfast Foods Purchases"/>
+          <parameter key="sum(Product Category = Candles)" value="Candles Purchases"/>
+          <parameter key="sum(Product Category = Candy)" value="Candy Purchases"/>
+          <parameter key="sum(Product Category = Canned Anchovies)" value="Canned Anchovies Purchases"/>
+          <parameter key="sum(Product Category = Canned Clams)" value="Canned Clams Purchases"/>
+          <parameter key="sum(Product Category = Canned Oysters)" value="Canned Oysters Purchases"/>
+          <parameter key="sum(Product Category = Canned Sardines)" value="Canned Sardines Purchases"/>
+          <parameter key="sum(Product Category = Canned Shrimp)" value="Canned Shrimp Purchases"/>
+          <parameter key="sum(Product Category = Canned Soup)" value="Canned Soup Purchases"/>
+          <parameter key="sum(Product Category = Canned Tuna)" value="Canned Tuna Purchases"/>
+          <parameter key="sum(Product Category = Carbonated Beverages)" value="Carbonated Beverages Purchases"/>
+          <parameter key="sum(Product Category = Cleaning Supplies)" value="Cleaning Supplies Purchases"/>
+          <parameter key="sum(Product Category = Cold Remedies)" value="Cold Remedies Purchases"/>
+          <parameter key="sum(Product Category = Dairy)" value="Dairy Purchases"/>
+          <parameter key="sum(Product Category = Decongestants)" value="Decongestants Purchases"/>
+          <parameter key="sum(Product Category = Drinks)" value="Drinks Purchases"/>
+          <parameter key="sum(Product Category = Eggs)" value="Eggs Purchases"/>
+          <parameter key="sum(Product Category = Electrical)" value="Electrical Purchases"/>
+          <parameter key="sum(Product Category = Frozen Desserts)" value="Frozen Desserts Purchases"/>
+          <parameter key="sum(Product Category = Frozen Entrees)" value="Frozen Entrees Purchases"/>
+          <parameter key="sum(Product Category = Fruit)" value="Fruit Purchases"/>
+          <parameter key="sum(Product Category = Hardware)" value="Hardware Purchases"/>
+          <parameter key="sum(Product Category = Hot Beverages)" value="Hot Beverages Purchases"/>
+          <parameter key="sum(Product Category = Hygiene)" value="Hygiene Purchases"/>
+          <parameter key="sum(Product Category = Jams and Jellies)" value="Jams and Jellies Purchases"/>
+          <parameter key="sum(Product Category = Kitchen Products)" value="Kitchen Products Purchases"/>
+          <parameter key="sum(Product Category = Magazines)" value="Magazines Purchases"/>
+          <parameter key="sum(Product Category = Meat)" value="Meat Purchases"/>
+          <parameter key="sum(Product Category = Miscellaneous)" value="Miscellaneous Purchases"/>
+          <parameter key="sum(Product Category = Packaged Vegetables)" value="Packaged Vegetables Purchases"/>
+          <parameter key="sum(Product Category = Pain Relievers)" value="Pain Relievers Purchases"/>
+          <parameter key="sum(Product Category = Paper Products)" value="Paper Products Purchases"/>
+          <parameter key="sum(Product Category = Pizza)" value="Pizza Purchases"/>
+          <parameter key="sum(Product Category = Plastic Products)" value="Plastic Products Purchases"/>
+          <parameter key="sum(Product Category = Pure Juice Beverages)" value="Pure Juice Beverages Purchases"/>
+          <parameter key="sum(Product Category = Seafood)" value="Seafood Purchases"/>
+          <parameter key="sum(Product Category = Side Dishes)" value="Side Dishes Purchases"/>
+          <parameter key="sum(Product Category = Snack Foods)" value="Snack Foods Purchases"/>
+          <parameter key="sum(Product Category = Specialty)" value="Specialty Purchases"/>
+          <parameter key="sum(Product Category = Starchy Foods)" value="Starchy Foods Purchases"/>
+          <parameter key="sum(Product Category = Vegetables)" value="Vegetables Purchases"/>
+        </list>
+        <parameter key="from_attribute" value=""/>
+        <parameter key="to_attribute" value=""/>
+        <description align="center" color="yellow" colored="true" width="126">Renaming the aggregated attributes</description>
+      </operator>
+      <operator activated="true" class="blending:sort" compatibility="9.10.008" expanded="true" height="82" name="Sort" width="90" x="1117" y="238">
+        <list key="sort_by">
+          <parameter key="cluster" value="ascending"/>
+        </list>
+        <description align="center" color="yellow" colored="true" width="126">Sorting the data in ascending order according to the cluster number</description>
+      </operator>
+      <connect from_op="Retrieve" from_port="output" to_op="Select Attributes" to_port="example set input"/>
+      <connect from_op="Select Attributes" from_port="example set output" to_op="Date to Numerical" to_port="example set input"/>
+      <connect from_op="Date to Numerical" from_port="example set output" to_op="Replace Missing Values" to_port="example set input"/>
+      <connect from_op="Replace Missing Values" from_port="example set output" to_op="Nominal to Numerical" to_port="example set input"/>
+      <connect from_op="Nominal to Numerical" from_port="example set output" to_op="Clustering" to_port="example set"/>
+      <connect from_op="Clustering" from_port="cluster model" to_port="result 1"/>
+      <connect from_op="Clustering" from_port="clustered set" to_op="Aggregate" to_port="example set input"/>
+      <connect from_op="Aggregate" from_port="example set output" to_op="Rename" to_port="example set input"/>
+      <connect from_op="Aggregate" from_port="original" to_port="result 2"/>
+      <connect from_op="Rename" from_port="example set output" to_op="Sort" to_port="example set input"/>
+      <connect from_op="Sort" from_port="example set output" to_port="result 3"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+    </process>
+  </operator>
+</process>
